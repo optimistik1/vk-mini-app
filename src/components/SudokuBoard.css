@@ -1,0 +1,286 @@
+.sudoku-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+  border-radius: 20px;
+}
+
+.sudoku-loading {
+  text-align: center;
+  padding: 60px;
+  font-size: 18px;
+}
+
+.sudoku-panel.dark-theme .sudoku-loading {
+  color: #8ab0cc;
+}
+
+.sudoku-panel.light-theme .sudoku-loading {
+  color: #2A6A9A;
+}
+
+.sudoku-board {
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.sudoku-panel.dark-theme .sudoku-board {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(79, 195, 247, 0.25);
+}
+
+.sudoku-panel.light-theme .sudoku-board {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(79, 195, 247, 0.35);
+}
+
+.sudoku-row {
+  display: flex;
+}
+
+/* ОПТИМАЛЬНЫЕ РАЗМЕРЫ КЛЕТОК */
+.sudoku-cell {
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid;
+  cursor: pointer;
+  font-size: 22px;
+  font-weight: 500;
+  transition: all 0.1s ease;
+}
+
+.sudoku-panel.dark-theme .sudoku-cell {
+  border-color: rgba(79, 195, 247, 0.12);
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.sudoku-panel.light-theme .sudoku-cell {
+  border-color: rgba(79, 195, 247, 0.25);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Адаптив для планшетов */
+@media (max-width: 768px) {
+  .sudoku-cell {
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+  }
+}
+
+/* Адаптив для телефонов */
+@media (max-width: 600px) {
+  .sudoku-cell {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+}
+
+.sudoku-cell:hover {
+  background: rgba(79, 195, 247, 0.1);
+}
+
+/* ВЫБРАННАЯ ЯЧЕЙКА */
+.sudoku-cell.selected {
+  background: #4fc3f7 !important;
+  border: 2px solid #4fc3f7 !important;
+}
+
+.sudoku-panel.dark-theme .sudoku-cell.selected .sudoku-cell-value {
+  color: #0a1a2a !important;
+}
+
+.sudoku-panel.light-theme .sudoku-cell.selected .sudoku-cell-value {
+  color: #fff !important;
+}
+
+/* ПОДСВЕТКА */
+.sudoku-cell.highlighted {
+  background: rgba(79, 195, 247, 0.08);
+}
+
+.sudoku-panel.dark-theme .sudoku-cell.highlighted {
+  background: rgba(79, 195, 247, 0.05);
+}
+
+.sudoku-panel.light-theme .sudoku-cell.highlighted {
+  background: rgba(79, 195, 247, 0.12);
+}
+
+/* ФИКСИРОВАННЫЕ КЛЕТКИ */
+.sudoku-cell.fixed {
+  background: rgba(79, 195, 247, 0.04);
+}
+
+.sudoku-panel.dark-theme .sudoku-cell.fixed {
+  background: rgba(30, 40, 50, 0.4);
+}
+
+.sudoku-panel.light-theme .sudoku-cell.fixed {
+  background: rgba(200, 220, 240, 0.25);
+}
+
+.sudoku-cell.fixed .sudoku-cell-value {
+  font-weight: 700;
+}
+
+.sudoku-panel.dark-theme .sudoku-cell.fixed .sudoku-cell-value {
+  color: #7ab8d4;
+}
+
+.sudoku-panel.light-theme .sudoku-cell.fixed .sudoku-cell-value {
+  color: #1A5A7A;
+}
+
+/* ЗНАЧЕНИЯ В КЛЕТКАХ */
+.sudoku-cell-value {
+  font-weight: 600;
+}
+
+.sudoku-panel.dark-theme .sudoku-cell-value {
+  color: #d0e8f5;
+}
+
+.sudoku-panel.light-theme .sudoku-cell-value {
+  color: #1A4A6A;
+}
+
+/* ПОДСКАЗКА */
+.sudoku-cell.hint-cell {
+  animation: hintPulse 0.5s ease;
+}
+
+.sudoku-panel.dark-theme .sudoku-cell.hint-cell {
+  background: #4fc3f7 !important;
+  border: 1px solid #4fc3f7 !important;
+}
+
+.sudoku-panel.dark-theme .sudoku-cell.hint-cell .sudoku-cell-value {
+  color: #0a1a2a !important;
+}
+
+.sudoku-panel.light-theme .sudoku-cell.hint-cell {
+  background: #4fc3f7 !important;
+  border: 1px solid #4fc3f7 !important;
+}
+
+.sudoku-panel.light-theme .sudoku-cell.hint-cell .sudoku-cell-value {
+  color: #fff !important;
+}
+
+@keyframes hintPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* ЗАВЕРШЁННЫЙ КВАДРАТ 3x3 */
+.sudoku-cell.box-complete {
+  background: rgba(79, 195, 247, 0.1);
+}
+
+.sudoku-panel.dark-theme .sudoku-cell.box-complete {
+  background: rgba(79, 195, 247, 0.05);
+  border: 1px solid rgba(79, 195, 247, 0.2);
+}
+
+.sudoku-panel.light-theme .sudoku-cell.box-complete {
+  background: rgba(79, 195, 247, 0.12);
+  border: 1px solid rgba(79, 195, 247, 0.3);
+}
+
+/* ЗАМЕТКИ */
+.sudoku-notes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 100%;
+  height: 100%;
+  padding: 3px;
+}
+
+.sudoku-note {
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sudoku-panel.dark-theme .sudoku-note {
+  color: #6a8aaa;
+}
+
+.sudoku-panel.light-theme .sudoku-note {
+  color: #3A7A9A;
+}
+
+/* ТОЛСТЫЕ ГРАНИЦЫ ДЛЯ КВАДРАТОВ 3x3 */
+.sudoku-cell.border-bottom {
+  border-bottom: 3px solid;
+}
+
+.sudoku-panel.dark-theme .sudoku-cell.border-bottom {
+  border-bottom-color: #4fc3f7;
+}
+
+.sudoku-panel.light-theme .sudoku-cell.border-bottom {
+  border-bottom-color: #4fc3f7;
+}
+
+.sudoku-cell.border-right {
+  border-right: 3px solid;
+}
+
+.sudoku-panel.dark-theme .sudoku-cell.border-right {
+  border-right-color: #4fc3f7;
+}
+
+.sudoku-panel.light-theme .sudoku-cell.border-right {
+  border-right-color: #4fc3f7;
+}
+
+/* Нижняя граница последней строки */
+.sudoku-row:last-child .sudoku-cell.border-bottom {
+  border-bottom: 1px solid;
+}
+
+.sudoku-panel.dark-theme .sudoku-row:last-child .sudoku-cell.border-bottom {
+  border-bottom-color: rgba(79, 195, 247, 0.12);
+}
+
+/* Правая граница последнего столбца */
+.sudoku-cell:last-child.border-right {
+  border-right: 1px solid;
+}
+
+.sudoku-panel.dark-theme .sudoku-cell:last-child.border-right {
+  border-right-color: rgba(79, 195, 247, 0.12);
+}
+
+/* ОШИБКИ */
+.sudoku-cell.mistake {
+  background: rgba(255, 107, 107, 0.2);
+  border: 1px solid #ff6b6b;
+}
+
+.sudoku-panel.dark-theme .sudoku-cell.mistake .sudoku-cell-value {
+  color: #ff8888;
+}
+
+.sudoku-panel.light-theme .sudoku-cell.mistake .sudoku-cell-value {
+  color: #e74c3c;
+}
+
+/* ЗНАЧЕНИЕ ПОДСКАЗКИ */
+.sudoku-cell-value.hint-value {
+  animation: valuePulse 0.5s ease;
+}
+
+@keyframes valuePulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); color: #4fc3f7; }
+  100% { transform: scale(1); }
+}

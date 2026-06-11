@@ -1,0 +1,278 @@
+/* ========== МОДАЛЬНОЕ ОКНО ВЫБОРА СЛОЖНОСТИ И КАТЕГОРИЙ ========== */
+.puzzle-difficulty-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.puzzle-difficulty-modal {
+  border-radius: 32px;
+  padding: 24px 28px;
+  width: 90%;
+  max-width: 420px;
+  text-align: center;
+  animation: modalSlideUp 0.3s ease;
+}
+
+/* ТЁМНАЯ ТЕМА */
+.puzzle-difficulty-modal.dark-theme {
+  background: rgba(10, 20, 35, 0.95);
+  border: 1px solid rgba(79, 195, 247, 0.3);
+}
+
+/* СВЕТЛАЯ ТЕМА - СВЕТЛАЯ И ВОЗДУШНАЯ */
+.puzzle-difficulty-modal.light-theme {
+  background: rgba(255, 255, 255, 0.92) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(79, 195, 247, 0.3) !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+@keyframes modalSlideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.modal-back-btn {
+  position: absolute;
+  left: 0;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 40px;
+  transition: all 0.2s ease;
+}
+
+.puzzle-difficulty-modal.dark-theme .modal-back-btn {
+  color: #4fc3f7;
+}
+
+.puzzle-difficulty-modal.dark-theme .modal-back-btn:hover {
+  background: rgba(79, 195, 247, 0.15);
+}
+
+.puzzle-difficulty-modal.light-theme .modal-back-btn {
+  color: #4fc3f7;
+}
+
+.puzzle-difficulty-modal.light-theme .modal-back-btn:hover {
+  background: rgba(79, 195, 247, 0.1);
+}
+
+.modal-icon {
+  font-size: 32px;
+}
+
+.modal-header h2 {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.puzzle-difficulty-modal.dark-theme .modal-header h2 {
+  color: #d0e8f5;
+}
+
+.puzzle-difficulty-modal.light-theme .modal-header h2 {
+  color: #1A4A6A;
+}
+
+/* ========== КАРТОЧКИ СЛОЖНОСТИ И КАТЕГОРИЙ ========== */
+.difficulty-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+  max-height: 450px;
+  overflow-y: auto;
+}
+
+.difficulty-options::-webkit-scrollbar {
+  display: none;
+}
+
+.difficulty-card {
+  padding: 14px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.difficulty-card:hover {
+  transform: translateX(6px);
+}
+
+.difficulty-card.selected {
+  border-color: #4fc3f7;
+}
+
+/* ТЁМНАЯ ТЕМА - карточки */
+.puzzle-difficulty-modal.dark-theme .difficulty-card {
+  background: rgba(20, 40, 60, 0.5);
+}
+
+/* СВЕТЛАЯ ТЕМА - карточки (светлые, с лёгким голубоватым оттенком) */
+.puzzle-difficulty-modal.light-theme .difficulty-card {
+  background: rgba(79, 195, 247, 0.08) !important;
+  border: 1px solid rgba(79, 195, 247, 0.15) !important;
+}
+
+.puzzle-difficulty-modal.light-theme .difficulty-card:hover {
+  background: rgba(79, 195, 247, 0.15) !important;
+  border: 1px solid rgba(79, 195, 247, 0.3) !important;
+}
+
+.difficulty-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 6px;
+}
+
+.difficulty-name {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.difficulty-badge {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.puzzle-difficulty-modal.dark-theme .difficulty-badge {
+  background: rgba(255, 255, 255, 0.08);
+  color: #8ab0cc;
+}
+
+.puzzle-difficulty-modal.light-theme .difficulty-badge {
+  background: rgba(79, 195, 247, 0.12);
+  color: #4fc3f7;
+}
+
+.difficulty-info {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.difficulty-pieces {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.difficulty-desc {
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+.puzzle-difficulty-modal.dark-theme .difficulty-pieces,
+.puzzle-difficulty-modal.dark-theme .difficulty-desc {
+  color: #8ab0cc;
+}
+
+.puzzle-difficulty-modal.light-theme .difficulty-pieces,
+.puzzle-difficulty-modal.light-theme .difficulty-desc {
+  color: #4a6a8a;
+}
+
+.difficulty-progress {
+  height: 3px;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.puzzle-difficulty-modal.dark-theme .difficulty-progress {
+  background: rgba(79, 195, 247, 0.15);
+}
+
+.puzzle-difficulty-modal.light-theme .difficulty-progress {
+  background: rgba(79, 195, 247, 0.1);
+}
+
+.difficulty-progress-bar {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+/* Специфичные цвета для сложностей */
+.difficulty-card[data-difficulty="easy"] .difficulty-name {
+  color: #2ecc71;
+}
+
+.difficulty-card[data-difficulty="medium"] .difficulty-name {
+  color: #f39c12;
+}
+
+.difficulty-card[data-difficulty="hard"] .difficulty-name {
+  color: #e74c3c;
+}
+
+/* Кнопка "Случайная категория" */
+.difficulty-card.random-card .difficulty-name {
+  color: #4fc3f7 !important;
+}
+
+.puzzle-difficulty-modal.light-theme .difficulty-card.random-card .difficulty-name {
+  color: #4fc3f7 !important;
+}
+
+/* ========== КНОПКА ОТМЕНЫ/НАЗАД ========== */
+.modal-close-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 40px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.puzzle-difficulty-modal.dark-theme .modal-close-btn {
+  background: rgba(255, 255, 255, 0.06);
+  color: #8ab0cc;
+}
+
+.puzzle-difficulty-modal.dark-theme .modal-close-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.puzzle-difficulty-modal.light-theme .modal-close-btn {
+  background: rgba(79, 195, 247, 0.1);
+  color: #4fc3f7;
+}
+
+.puzzle-difficulty-modal.light-theme .modal-close-btn:hover {
+  background: rgba(79, 195, 247, 0.2);
+}

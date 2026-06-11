@@ -1,0 +1,705 @@
+/* ========== ОСНОВНОЙ ПАНЕЛЬ ========== */
+.sudoku-panel {
+  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ТЁМНАЯ ТЕМА - ТЁМНО-СИНИЙ ГРАДИЕНТ (как в пазлах) */
+.sudoku-panel.dark-theme {
+  background: radial-gradient(ellipse at 20% 30%, #0a0a1a, #1a1a3e, #0f3460) !important;
+}
+
+/* СВЕТЛАЯ ТЕМА - ЯРКИЙ ГОЛУБОЙ ГРАДИЕНТ (как в пазлах) */
+.sudoku-panel.light-theme {
+  background: radial-gradient(ellipse at 20% 30%, #1a6dd4, #3a8de8, #5aadfc) !important;
+}
+
+/* ВАЖНО: Делаем ВСЕ внутренние div прозрачными */
+.sudoku-panel > div,
+.sudoku-panel .Panel__in,
+.sudoku-panel .Panel__in-bg,
+.sudoku-panel .vkuiPanel__in,
+.sudoku-panel .vkuiPanel__in-bg,
+.sudoku-panel div[class*="Panel"],
+.sudoku-panel div[class*="View"] {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* ========== АНИМИРОВАННЫЕ ОРБЫ (ГОЛУБЫЕ) ========== */
+.sudoku-panel .glow-orb {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  top: -100px;
+  right: -100px;
+  filter: blur(80px);
+  opacity: 0.5;
+  animation: float 8s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.sudoku-panel.dark-theme .glow-orb {
+  background: radial-gradient(circle, #0a4a6a, #0d3a5a);
+}
+
+.sudoku-panel.light-theme .glow-orb {
+  background: radial-gradient(circle, #4fc3f7, #29b6f6);
+}
+
+.sudoku-panel .glow-orb-2 {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  bottom: -150px;
+  left: -150px;
+  filter: blur(100px);
+  opacity: 0.35;
+  animation: float 12s ease-in-out infinite reverse;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.sudoku-panel.dark-theme .glow-orb-2 {
+  background: radial-gradient(circle, #0a5a7a, #0d4a6a);
+}
+
+.sudoku-panel.light-theme .glow-orb-2 {
+  background: radial-gradient(circle, #7ccfe8, #4fc3f7);
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(20px, 20px); }
+}
+
+/* ========== ХЕДЕР ========== */
+.sudoku-panel .PanelHeader {
+  background: transparent !important;
+  border-bottom: none !important;
+  position: relative;
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+/* ========== ВЕРХНЯЯ ПАНЕЛЬ СТАТИСТИКИ ========== */
+.sudoku-top-bar {
+  padding: 12px 20px 0 20px;
+  position: relative;
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+.sudoku-stats-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.sudoku-stat-item {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 8px 20px;
+  border-radius: 40px;
+  backdrop-filter: blur(16px);
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.sudoku-panel.dark-theme .sudoku-stat-item {
+  background: rgba(10, 30, 50, 0.85) !important;
+}
+
+.sudoku-panel.light-theme .sudoku-stat-item {
+  background: rgba(255, 255, 255, 0.85) !important;
+}
+
+
+/* Убираем лишнюю плашку у иконки темы и лидеров */
+.sudoku-stat-item.theme,
+.sudoku-stat-item.leaderboard {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  backdrop-filter: none !important;
+}
+
+.sudoku-stat-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+.sudoku-panel.dark-theme .sudoku-stat-label {
+  color: #8ab0cc;
+}
+
+.sudoku-panel.light-theme .sudoku-stat-label {
+  color: #1A4A6A;
+}
+
+.sudoku-stat-value {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.sudoku-panel.dark-theme .sudoku-stat-value {
+  color: #d0e8f5;
+}
+
+.sudoku-panel.light-theme .sudoku-stat-value {
+  color: #1A4A6A;
+}
+
+.sudoku-stat-item.errors .sudoku-stat-value {
+  color: #ff6b6b;
+}
+
+.sudoku-stat-item.time .sudoku-stat-value {
+  color: #4fc3f7;
+}
+
+.sudoku-stat-item.skill {
+  border-color: #4fc3f7;
+}
+
+.sudoku-stat-item.skill .sudoku-stat-value {
+  color: #4fc3f7;
+}
+
+/* ========== ОСНОВНАЯ РАСКЛАДКА ========== */
+.sudoku-game-layout {
+  display: flex;
+  gap: 32px;
+  padding: 80px 24px 16px 24px;
+  align-items: flex-start;
+  justify-content: center;
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.sudoku-game-layout::-webkit-scrollbar {
+  display: none;
+}
+
+/* ========== СЕКЦИЯ С ДОСКОЙ (ПЛАШКА) ========== */
+.sudoku-board-section {
+  flex-shrink: 0;
+  border-radius: 28px;
+  padding: 12px;
+  backdrop-filter: blur(16px);
+}
+
+.sudoku-panel.dark-theme .sudoku-board-section {
+  background: rgba(10, 30, 50, 0.7) !important;
+  border: 1px solid rgba(79, 195, 247, 0.4) !important;
+}
+
+.sudoku-panel.light-theme .sudoku-board-section {
+  background: rgba(255, 255, 255, 0.85) !important;
+  border: 1px solid rgba(79, 195, 247, 0.5) !important;
+}
+
+/* ========== ПРАВАЯ ПАНЕЛЬ ========== */
+.sudoku-controls-section {
+  width: 320px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ========== КАРТОЧКИ (NUMBERPAD, CONTROLS, STATS) ========== */
+.sudoku-panel.dark-theme .numberpad,
+.sudoku-panel.dark-theme .game-controls,
+.sudoku-panel.dark-theme .sudoku-player-stats {
+  background: rgba(10, 30, 50, 0.7) !important;
+  border: 1px solid rgba(79, 195, 247, 0.4) !important;
+  border-radius: 28px;
+  padding: 20px;
+}
+
+.sudoku-panel.light-theme .numberpad,
+.sudoku-panel.light-theme .game-controls,
+.sudoku-panel.light-theme .sudoku-player-stats {
+  background: rgba(255, 255, 255, 0.7) !important;
+  border: 1px solid rgba(79, 195, 247, 0.5) !important;
+  border-radius: 28px;
+  padding: 20px;
+}
+
+/* ========== КНОПКИ УПРАВЛЕНИЯ (ВЕРТИКАЛЬНО) ========== */
+.game-controls {
+  width: 100%;
+}
+
+.controls-buttons-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.game-control-btn {
+  width: 100%;
+  height: 52px;
+  border-radius: 48px;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 1px;
+  background: rgba(10, 30, 50, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(79, 195, 247, 0.4);
+  color: #d0e8f5;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sudoku-panel.light-theme .game-control-btn {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(79, 195, 247, 0.5);
+  color: #1A4A6A;
+}
+
+.game-control-btn:active {
+  transform: scale(0.97);
+}
+
+.game-control-btn.note-active {
+  background: #4fc3f7 !important;
+  border-color: #4fc3f7 !important;
+  color: #fff !important;
+}
+
+.game-control-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ========== КНОПКИ ЦИФР (NUMBERPAD) ========== */
+.numberpad {
+  width: 100%;
+}
+
+.numberpad-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+
+.numberpad-btn {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: rgba(10, 30, 50, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(79, 195, 247, 0.4);
+  color: #d0e8f5;
+  font-size: 22px;
+  font-weight: 600;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sudoku-panel.light-theme .numberpad-btn {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(79, 195, 247, 0.5);
+  color: #1A4A6A;
+}
+
+.numberpad-btn:active {
+  transform: scale(0.95);
+  background: rgba(79, 195, 247, 0.3);
+}
+
+.numberpad-btn.clear {
+  border-color: #ff6b6b;
+  color: #ff6b6b;
+}
+
+/* ========== КНОПКИ СЛОЖНОСТИ ========== */
+.sudoku-difficulty-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.sudoku-panel.dark-theme .sudoku-difficulty-buttons .Button {
+  background: rgba(10, 30, 50, 0.7) !important;
+  border: 1px solid rgba(79, 195, 247, 0.4) !important;
+  color: #d0e8f5;
+  border-radius: 40px;
+  height: 44px;
+  font-weight: 700;
+}
+
+.sudoku-panel.light-theme .sudoku-difficulty-buttons .Button {
+  background: rgba(255, 255, 255, 0.85) !important;
+  border: 1px solid rgba(79, 195, 247, 0.6) !important;
+  color: #1A4A6A;
+  border-radius: 40px;
+  height: 44px;
+  font-weight: 700;
+}
+
+.sudoku-difficulty-buttons .Button[style*="background: rgb(46, 204, 113)"] {
+  background: #2ecc71 !important;
+  color: white !important;
+}
+
+.sudoku-difficulty-buttons .Button[style*="background: rgb(243, 156, 18)"] {
+  background: #f39c12 !important;
+  color: white !important;
+}
+
+.sudoku-difficulty-buttons .Button[style*="background: rgb(231, 76, 60)"] {
+  background: #e74c3c !important;
+  color: white !important;
+}
+
+/* ========== ИКОНКИ ========== */
+.sudoku-panel .icon-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease !important;
+}
+
+.sudoku-panel.dark-theme .icon-btn {
+  background: rgba(10, 30, 40, 0.7) !important;
+  backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(79, 195, 247, 0.4) !important;
+}
+
+.sudoku-panel.dark-theme .icon-btn:hover {
+  background: rgba(79, 195, 247, 0.2) !important;
+  transform: scale(1.08) !important;
+}
+
+.sudoku-panel.dark-theme .icon-btn svg {
+  fill: #4fc3f7 !important;
+}
+
+.sudoku-panel.light-theme .icon-btn {
+  background: rgba(255, 255, 255, 0.7) !important;
+  backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(79, 195, 247, 0.5) !important;
+}
+
+.sudoku-panel.light-theme .icon-btn:hover {
+  background: rgba(79, 195, 247, 0.2) !important;
+  transform: scale(1.08) !important;
+}
+
+.sudoku-panel.light-theme .icon-btn svg {
+  fill: #1a3a5a !important;
+}
+
+/* ========== МОДАЛЬНЫЕ ОКНА ========== */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-card {
+  border-radius: 48px;
+  padding: 28px 40px;
+  text-align: center;
+  animation: slideUp 0.3s ease;
+  min-width: 260px;
+}
+
+.sudoku-panel.dark-theme .modal-card {
+  background: #081223f2;
+  border: 2px solid #4fc3f766;
+}
+
+.sudoku-panel.light-theme .modal-card {
+  background: #fffffff2;
+  border: 2px solid #4fc3f780;
+}
+
+.modal-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.modal-title {
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.sudoku-panel.dark-theme .modal-title {
+  color: #d0e8f5;
+}
+
+.sudoku-panel.light-theme .modal-title {
+  color: #1A4A6A;
+}
+
+.modal-text {
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+.sudoku-panel.dark-theme .modal-text {
+  color: #8ab0cc;
+}
+
+.sudoku-panel.light-theme .modal-text {
+  color: #2A6A9A;
+}
+
+.modal-btn {
+  border: none;
+  padding: 10px 28px;
+  border-radius: 40px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.sudoku-panel.dark-theme .modal-btn {
+  background: #4fc3f733;
+  color: #4fc3f7;
+  border: 1px solid #4fc3f766;
+}
+
+.sudoku-panel.light-theme .modal-btn {
+  background: #4fc3f726;
+  color: #1A4A6A;
+  border: 1px solid #4fc3f766;
+}
+
+.modal-btn:hover {
+  transform: scale(1.02);
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ========== СТАТИСТИКА ИГРОКА ========== */
+.sudoku-player-stats {
+  border-radius: 28px;
+  padding: 16px;
+  text-align: center;
+  backdrop-filter: blur(16px);
+}
+
+.sudoku-panel.dark-theme .sudoku-player-stats {
+  background: rgba(10, 30, 50, 0.7) !important;
+  border: 1px solid rgba(79, 195, 247, 0.3) !important;
+}
+
+.sudoku-panel.light-theme .sudoku-player-stats {
+  background: rgba(255, 255, 255, 0.7) !important;
+  border: 1px solid rgba(79, 195, 247, 0.4) !important;
+}
+
+.sudoku-player-stats span {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.sudoku-panel.dark-theme .sudoku-player-stats span {
+  color: #8ab0cc;
+}
+
+.sudoku-panel.light-theme .sudoku-player-stats span {
+  color: #1A4A6A;
+}
+
+/* ========== ПРОГРЕСС ========== */
+.sudoku-promotion-info {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(79, 195, 247, 0.2);
+}
+
+.sudoku-promotion-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffb74d;
+  margin-bottom: 10px;
+}
+
+.sudoku-progress-item {
+  font-size: 10px;
+}
+
+.sudoku-panel.dark-theme .sudoku-progress-item {
+  color: #8ab0cc;
+}
+
+.sudoku-panel.light-theme .sudoku-progress-item {
+  color: #1A4A6A;
+}
+
+.sudoku-progress-item span {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.sudoku-progress-bar {
+  border-radius: 20px;
+  height: 4px;
+  overflow: hidden;
+  background: rgba(79, 195, 247, 0.15);
+}
+
+.sudoku-progress-fill {
+  background: #4fc3f7;
+  border-radius: 20px;
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+/* ========== ФУТЕР ========== */
+.sudoku-bottom-bar {
+  border-top: none !important;
+  background: transparent !important;
+  padding: 12px 20px 20px 20px;
+  flex-shrink: 0;
+}
+
+/* ========== АДАПТИВ ========== */
+@media (max-width: 900px) {
+  .sudoku-game-layout {
+    flex-direction: column;
+    align-items: center;
+    padding: 80px 16px 16px 16px;
+    gap: 20px;
+  }
+  
+  .sudoku-controls-section {
+    width: 100%;
+    max-width: 380px;
+  }
+  
+  .sudoku-board-section {
+    order: 1;
+  }
+  
+  .sudoku-controls-section {
+    order: 2;
+  }
+  
+  .sudoku-bottom-bar {
+    order: 3;
+  }
+}
+
+@media (max-width: 768px) {
+  .sudoku-stats-row {
+    gap: 8px;
+  }
+  
+  .sudoku-stat-item {
+    padding: 4px 12px;
+  }
+  
+  .sudoku-stat-value {
+    font-size: 15px;
+  }
+  
+  .sudoku-stat-label {
+    font-size: 9px;
+  }
+  
+  .sudoku-top-bar {
+    padding: 8px 12px 0 12px;
+  }
+  
+  .sudoku-difficulty-buttons {
+    gap: 10px;
+  }
+  
+  .sudoku-difficulty-buttons .Button {
+    min-width: 75px;
+    font-size: 11px;
+    height: 36px;
+  }
+  
+  .numberpad-grid {
+    gap: 8px;
+  }
+  
+  .numberpad-btn {
+    font-size: 18px;
+  }
+  
+  .game-control-btn {
+    height: 46px;
+    font-size: 13px;
+  }
+  
+  .controls-buttons-vertical {
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sudoku-difficulty-buttons .Button {
+    min-width: 60px;
+    font-size: 10px;
+  }
+  
+  .game-control-btn {
+    height: 44px;
+    font-size: 12px;
+  }
+  
+  .controls-buttons-vertical {
+    gap: 8px;
+  }
+}

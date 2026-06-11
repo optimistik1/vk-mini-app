@@ -1,0 +1,783 @@
+/* ========== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ========== */
+:root {
+  --button-height: 48px;
+  --button-height-small: 40px;
+  --button-min-width: 100px;
+  --icon-button-size: 44px;
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 20px;
+  --spacing-xl: 24px;
+  --spacing-2xl: 32px;
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-full: 9999px;
+  
+  /* Skeleton Loader переменные (тёмная тема по умолчанию) */
+  --bg-surface: rgba(20, 40, 60, 0.7);
+  --bg-surface-hover: rgba(79, 195, 247, 0.15);
+  --bg-elevated: rgba(10, 30, 50, 0.5);
+  --border-color: rgba(79, 195, 247, 0.2);
+}
+
+/* ========== СВЕТЛАЯ ТЕМА - ПЕРЕОПРЕДЕЛЯЕМ ПЕРЕМЕННЫЕ ========== */
+.light-theme {
+  --bg-surface: rgba(255, 255, 255, 0.7);
+  --bg-surface-hover: rgba(79, 195, 247, 0.1);
+  --bg-elevated: rgba(255, 255, 255, 0.5);
+  --border-color: rgba(79, 195, 247, 0.3);
+}
+
+/* ========== БАЗОВЫЕ СТИЛИ ========== */
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ========== ТЁМНАЯ ТЕМА (ГРАДИЕНТ) ========== */
+body.dark-theme,
+.dark-theme {
+  background: radial-gradient(ellipse at 20% 30%, #0a0a1a, #1a1a3e, #0f3460);
+}
+
+/* ========== СВЕТЛАЯ ТЕМА (ГРАДИЕНТ) - ГОЛУБОЙ ========== */
+body.light-theme,
+.light-theme {
+  background: radial-gradient(ellipse at 20% 30%, #1a6dd4, #3a8de8, #5aadfc);
+}
+
+#root {
+  position: relative;
+  min-height: 100vh;
+}
+
+/* ========== АНИМИРОВАННЫЙ ФОН (CANVAS) ========== */
+/* Только для фонового Canvas (звёзды, анимация) */
+canvas:not(.puzzle-board canvas):not(.puzzle-preview canvas) {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+  display: block !important;
+}
+
+/* Canvas для игр - нормальные стили */
+.puzzle-board canvas,
+.puzzle-preview canvas {
+  position: relative !important;
+  pointer-events: auto !important;
+  z-index: 10 !important;
+  display: block !important;
+}
+
+/* ========== ПРОЗРАЧНЫЙ ХЕДЕР ДЛЯ ВСЕХ ПАНЕЛЕЙ ========== */
+.PanelHeader {
+  background: transparent !important;
+}
+
+.PanelHeader__in {
+  background: transparent !important;
+}
+
+.vkuiPanelHeader__bg {
+  background: transparent !important;
+  display: none !important;
+}
+
+/* ========== ВСЕ ПАНЕЛИ ========== */
+.Panel,
+.sudoku-panel,
+.puzzle-panel,
+.leaderboard-panel,
+.menu-panel {
+  background: transparent !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* Контент внутри панелей */
+.menu-content,
+.sudoku-game-layout,
+.puzzle-container,
+.leaderboard-container,
+.custom-header,
+.sudoku-top-bar,
+.sudoku-bottom-bar,
+.puzzle-top-bar,
+.puzzle-footer,
+.sudoku-stats-row,
+.puzzle-stats-row,
+.sudoku-controls-section,
+.puzzle-sidebar,
+.sudoku-board-section,
+.puzzle-board {
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+/* Кнопки и интерактивные элементы */
+button,
+.icon-btn,
+.game-control-btn,
+.numberpad-btn,
+.play-btn,
+.difficulty-btn,
+.modal-btn,
+.sudoku-cell,
+.puzzle-controls button,
+.sudoku-difficulty-buttons .Button,
+.puzzle-difficulty-buttons .Button {
+  position: relative !important;
+  z-index: 3 !important;
+}
+
+/* Модальные окна */
+.overlay {
+  position: fixed !important;
+  z-index: 10000 !important;
+}
+
+.modal-card {
+  position: relative !important;
+  z-index: 10001 !important;
+}
+
+/* Скрываем старые декоративные элементы */
+.sudoku-panel::before,
+.puzzle-panel::before,
+.leaderboard-panel::before,
+.menu-panel::before,
+.sudoku-glow-orb,
+.sudoku-glow-orb-2,
+.puzzle-glow-orb,
+.puzzle-glow-orb-2,
+.glow-orb,
+.glow-orb-2 {
+  display: none !important;
+}
+
+/* ========== КАСТОМНЫЙ СКРОЛЛБАР ========== */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+}
+
+.dark-theme ::-webkit-scrollbar-thumb {
+  background: #4fc3f7;
+  border-radius: 10px;
+}
+
+.dark-theme ::-webkit-scrollbar-thumb:hover {
+  background: #29b6f6;
+}
+
+.light-theme ::-webkit-scrollbar-thumb {
+  background: #4fc3f7;
+  border-radius: 10px;
+}
+
+.light-theme ::-webkit-scrollbar-thumb:hover {
+  background: #29b6f6;
+}
+
+/* ========== ЕДИНЫЕ КНОПКИ ========== */
+.button-base {
+  height: var(--button-height);
+  min-width: var(--button-min-width);
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  padding: 0 var(--spacing-lg);
+}
+
+.game-control-btn {
+  height: var(--button-height);
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: 14px;
+  background: rgba(20, 40, 60, 0.85) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(79, 195, 247, 0.4);
+  color: #d0e8f5;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  padding: 0 var(--spacing-lg);
+}
+
+.light-theme .game-control-btn {
+  background: rgba(255, 255, 255, 0.85) !important;
+  border: 1px solid rgba(79, 195, 247, 0.5);
+  color: #1A4A6A;
+}
+
+.game-control-btn:active {
+  transform: scale(0.97);
+}
+
+.game-control-btn.note-active {
+  background: #4fc3f7 !important;
+  border-color: #4fc3f7 !important;
+  color: #fff !important;
+}
+
+.numberpad-btn {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  max-width: 70px;
+  background: rgba(20, 40, 60, 0.85) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(79, 195, 247, 0.4);
+  color: #d0e8f5;
+  font-size: 22px;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.light-theme .numberpad-btn {
+  background: rgba(255, 255, 255, 0.85) !important;
+  border: 1px solid rgba(79, 195, 247, 0.5);
+  color: #1A4A6A;
+}
+
+.numberpad-btn:active {
+  transform: scale(0.95);
+  background: rgba(79, 195, 247, 0.3);
+}
+
+.numberpad-btn.clear {
+  border-color: #ff6b6b;
+  color: #ff6b6b;
+}
+
+/* ========== ИКОНКИ-КНОПКИ ========== */
+.icon-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(20, 40, 60, 0.7) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(79, 195, 247, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.light-theme .icon-btn {
+  background: rgba(255, 255, 255, 0.7) !important;
+  border: 1px solid rgba(79, 195, 247, 0.5);
+}
+
+.icon-btn:hover {
+  background: rgba(79, 195, 247, 0.3);
+  transform: scale(1.05);
+}
+
+.icon-btn:active {
+  transform: scale(0.95);
+}
+
+.dark-theme .icon-btn svg {
+  fill: #4fc3f7;
+}
+
+.light-theme .icon-btn svg {
+  fill: #1A4A6A;
+}
+
+.icon-btn.muted {
+  opacity: 0.6;
+}
+
+.icon-btn.muted:hover {
+  opacity: 1;
+}
+
+/* ========== КАРТОЧКИ И ПАНЕЛИ ========== */
+.card {
+  background: rgba(20, 40, 60, 0.8) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(79, 195, 247, 0.3);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+}
+
+.light-theme .card {
+  background: rgba(255, 255, 255, 0.8) !important;
+  border: 1px solid rgba(79, 195, 247, 0.4);
+}
+
+.stat-card {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm) var(--spacing-xl);
+  background: rgba(20, 40, 60, 0.6);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(79, 195, 247, 0.3);
+}
+
+.light-theme .stat-card {
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(79, 195, 247, 0.4);
+}
+
+.stat-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #8ab0cc;
+  font-weight: 500;
+}
+
+.light-theme .stat-label {
+  color: #2A6A9A;
+}
+
+.stat-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: #d0e8f5;
+}
+
+.light-theme .stat-value {
+  color: #1A4A6A;
+}
+
+/* ========== МОДАЛЬНЫЕ ОКНА ========== */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-card {
+  background: rgba(8, 18, 35, 0.95);
+  backdrop-filter: blur(20px);
+  border: 2px solid #4fc3f780;
+  border-radius: 48px;
+  padding: 28px 40px;
+  text-align: center;
+  animation: slideUp 0.3s ease;
+  min-width: 260px;
+  max-width: 90vw;
+}
+
+.light-theme .modal-card {
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid rgba(79, 195, 247, 0.5);
+}
+
+.modal-card.win {
+  border-color: #4fc3f7;
+}
+
+.modal-card.lose {
+  border-color: #ff6b6b;
+}
+
+.modal-card.pause {
+  border-color: #f39c12;
+}
+
+.modal-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.modal-title {
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.dark-theme .modal-title {
+  color: #d0e8f5;
+}
+
+.light-theme .modal-title {
+  color: #1A4A6A;
+}
+
+.modal-text {
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+.dark-theme .modal-text {
+  color: #8ab0cc;
+}
+
+.light-theme .modal-text {
+  color: #2A6A9A;
+}
+
+.modal-btn {
+  background: rgba(79, 195, 247, 0.2);
+  border: 1px solid rgba(79, 195, 247, 0.4);
+  padding: 10px 28px;
+  border-radius: 40px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #4fc3f7;
+}
+
+.light-theme .modal-btn {
+  background: rgba(79, 195, 247, 0.15);
+  color: #1A4A6A;
+}
+
+.modal-btn:active {
+  transform: scale(0.98);
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ========== СТАТИСТИКА ИГРОКА ========== */
+.sudoku-player-stats {
+  border-radius: 28px;
+  padding: 16px;
+  text-align: center;
+  backdrop-filter: blur(16px);
+  background: rgba(20, 40, 60, 0.5);
+  border: 1px solid rgba(79, 195, 247, 0.3);
+}
+
+.light-theme .sudoku-player-stats {
+  background: rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(79, 195, 247, 0.4);
+}
+
+.sudoku-player-stats span {
+  font-size: 12px;
+  font-weight: 500;
+  color: #8ab0cc;
+}
+
+.light-theme .sudoku-player-stats span {
+  color: #2A6A9A;
+}
+
+/* ========== ПРОГРЕСС ========== */
+.sudoku-promotion-info {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(79, 195, 247, 0.2);
+}
+
+.sudoku-promotion-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffb74d;
+  margin-bottom: 10px;
+}
+
+.sudoku-progress-item {
+  font-size: 10px;
+  color: #8ab0cc;
+}
+
+.light-theme .sudoku-progress-item {
+  color: #2A6A9A;
+}
+
+.sudoku-progress-item span {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.sudoku-progress-bar {
+  border-radius: 20px;
+  height: 4px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.sudoku-progress-fill {
+  background: #4fc3f7;
+  border-radius: 20px;
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+/* ========== КНОПКИ СЛОЖНОСТИ ========== */
+.sudoku-difficulty-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.sudoku-difficulty-buttons .Button {
+  min-width: 90px;
+  height: 40px;
+  border-radius: 40px;
+  font-weight: 700;
+  font-size: 13px;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  background: rgba(20, 40, 60, 0.6);
+  border: 1px solid rgba(79, 195, 247, 0.4);
+  color: #d0e8f5;
+}
+
+.light-theme .sudoku-difficulty-buttons .Button {
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(79, 195, 247, 0.45);
+  color: #1A4A6A;
+}
+
+.sudoku-difficulty-buttons .Button:hover {
+  background: rgba(79, 195, 247, 0.3);
+  border-color: #4fc3f7;
+  transform: translateY(-2px);
+}
+
+/* ========== АДАПТИВ ========== */
+@media (max-width: 768px) {
+  :root {
+    --button-height: 44px;
+    --icon-button-size: 40px;
+    --spacing-xl: 20px;
+    --spacing-2xl: 24px;
+  }
+  
+  .stat-card {
+    padding: 6px var(--spacing-md);
+  }
+  
+  .stat-value {
+    font-size: 16px;
+  }
+  
+  .numberpad-btn {
+    font-size: 18px;
+  }
+  
+  .sudoku-difficulty-buttons {
+    gap: 10px;
+  }
+  
+  .sudoku-difficulty-buttons .Button {
+    min-width: 75px;
+    font-size: 11px;
+    height: 36px;
+  }
+  
+  .numberpad-grid {
+    gap: 8px;
+  }
+  
+  .game-control-btn {
+    height: 42px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sudoku-difficulty-buttons .Button {
+    min-width: 60px;
+    font-size: 10px;
+  }
+  
+  .game-control-btn {
+    padding: 0 var(--spacing-md);
+    font-size: 12px;
+  }
+}
+
+/* ========== ФОН ДЛЯ ПАНЕЛЕЙ СУДОКУ ========== */
+.sudoku-panel {
+  background: transparent !important;
+  position: relative;
+}
+
+.sudoku-panel.dark-theme {
+  background: radial-gradient(ellipse at 20% 30%, #0a0a1a, #1a1a3e, #0f3460) !important;
+}
+
+.sudoku-panel.light-theme {
+  background: radial-gradient(ellipse at 20% 30%, #1a6dd4, #3a8de8, #5aadfc) !important;
+}
+
+.sudoku-panel .PanelHeader {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.sudoku-panel .vkuiPanelHeader__in {
+  background: transparent !important;
+}
+
+.sudoku-panel .vkuiPanelHeader__bg {
+  background: transparent !important;
+  display: none !important;
+}
+
+.sudoku-bottom-bar {
+  border-top: none !important;
+  background: transparent !important;
+}
+
+/* ========== ФОН ДЛЯ ПАНЕЛИ ЛИДЕРБОРДА ========== */
+.leaderboard-panel {
+  background: transparent !important;
+  position: relative;
+}
+
+.leaderboard-panel.dark-theme {
+  background: radial-gradient(ellipse at 20% 30%, #0a0a1a, #1a1a3e, #0f3460) !important;
+}
+
+.leaderboard-panel.light-theme {
+  background: radial-gradient(ellipse at 20% 30%, #1a6dd4, #3a8de8, #5aadfc) !important;
+}
+
+.leaderboard-panel .PanelHeader {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.leaderboard-panel .vkuiPanelHeader__in {
+  background: transparent !important;
+}
+
+.leaderboard-panel .vkuiPanelHeader__bg {
+  background: transparent !important;
+  display: none !important;
+}
+
+/* ========== ПЕРЕОПРЕДЕЛЕНИЕ СТИЛЕЙ ДЛЯ ЛИДЕРБОРДА ========== */
+
+/* Цвет для столбцов Место и Рейтинг в тёмной теме */
+.leaderboard-panel.dark-theme .item-rank,
+.leaderboard-panel.dark-theme .rating-value {
+  color: #4fc3f7 !important;
+}
+
+/* Цвет для столбцов Место и Рейтинг в светлой теме */
+.leaderboard-panel.light-theme .item-rank,
+.leaderboard-panel.light-theme .rating-value {
+  color: #0a4a6a !important;
+  font-weight: 700 !important;
+}
+
+/* Цвет для остальных столбцов (Игрок, Побед, Игр) в тёмной теме */
+.leaderboard-panel.dark-theme .player-name,
+.leaderboard-panel.dark-theme .wins-value,
+.leaderboard-panel.dark-theme .games-count {
+  color: #8ab0cc !important;
+}
+
+/* Цвет для остальных столбцов (Игрок, Побед, Игр) в светлой теме */
+.leaderboard-panel.light-theme .player-name,
+.leaderboard-panel.light-theme .wins-value,
+.leaderboard-panel.light-theme .games-count {
+  color: #1A4A6A !important;
+}
+
+/* Заголовки таблицы в светлой теме */
+.leaderboard-panel.light-theme .leaderboard-header {
+  color: #1A4A6A !important;
+}
+
+/* Заголовки таблицы в тёмной теме */
+.leaderboard-panel.dark-theme .leaderboard-header {
+  color: #8ab0cc !important;
+}
+
+/* Кнопка назад в лидерборде */
+.leaderboard-panel .back-btn {
+  cursor: pointer;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.leaderboard-panel.dark-theme .back-btn {
+  background: #1a1a1a;
+  border: 2px solid #444;
+}
+
+.leaderboard-panel.light-theme .back-btn {
+  background: #ffffff;
+  border: 2px solid #dee2e6;
+}
+
+.leaderboard-panel.dark-theme .back-btn svg {
+  fill: #ffffff;
+}
+
+.leaderboard-panel.light-theme .back-btn svg {
+  fill: #333333;
+}
+
+.leaderboard-panel .back-btn:hover {
+  transform: scale(1.08);
+}
+
+.leaderboard-panel.dark-theme .back-btn:hover {
+  background: #2a2a2a;
+}
+
+.leaderboard-panel.light-theme .back-btn:hover {
+  background: #f0f0f0;
+}

@@ -1,0 +1,186 @@
+/* Базовый класс для shimmer-анимации */
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--bg-surface) 0%,
+    var(--bg-surface-hover) 50%,
+    var(--bg-surface) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Skeleton для судоку */
+.skeleton-sudoku {
+  display: flex;
+  justify-content: center;
+  padding: var(--spacing-md);
+}
+
+.skeleton-board {
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 2px solid var(--border-color);
+}
+
+.skeleton-row {
+  display: flex;
+}
+
+.skeleton-cell {
+  width: 52px;
+  height: 52px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-surface);
+}
+
+@media (max-width: 768px) {
+  .skeleton-cell {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+@media (max-width: 600px) {
+  .skeleton-cell {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+/* Skeleton для пазлов */
+.skeleton-puzzle {
+  display: flex;
+  gap: 48px;
+  padding: var(--spacing-xl);
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.skeleton-pieces-area {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-sm);
+  width: 400px;
+  height: 400px;
+  background: var(--bg-surface);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-md);
+}
+
+.skeleton-piece {
+  background: var(--bg-elevated);
+  border-radius: var(--radius-sm);
+  width: 100%;
+  height: 100%;
+}
+
+.skeleton-board-area {
+  width: 400px;
+  height: 400px;
+  background: var(--bg-surface);
+  border-radius: var(--radius-lg);
+}
+
+/* Skeleton для статистики */
+.skeleton-stats {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.skeleton-stat {
+  width: 100px;
+  height: 60px;
+  background: var(--bg-surface);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-color);
+}
+
+/* Skeleton для лидерборда (множественные элементы) */
+.skeleton-multiple {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.skeleton-leaderboard-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  height: 60px;
+}
+
+.skeleton-rank {
+  width: 50px;
+  height: 24px;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-sm);
+}
+
+.skeleton-name {
+  flex: 1;
+  height: 20px;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-sm);
+}
+
+.skeleton-score {
+  width: 60px;
+  height: 24px;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-sm);
+}
+
+/* Адаптив для планшетов */
+@media (max-width: 768px) {
+  .skeleton-pieces-area,
+  .skeleton-board-area {
+    width: 300px;
+    height: 300px;
+  }
+  
+  .skeleton-puzzle {
+    gap: 24px;
+    padding: var(--spacing-md);
+  }
+  
+  .skeleton-stat {
+    width: 80px;
+    height: 50px;
+  }
+}
+
+/* Адаптив для телефонов */
+@media (max-width: 480px) {
+  .skeleton-pieces-area,
+  .skeleton-board-area {
+    width: 280px;
+    height: 280px;
+  }
+  
+  .skeleton-pieces-area {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .skeleton-stat {
+    width: 70px;
+    height: 45px;
+  }
+}
